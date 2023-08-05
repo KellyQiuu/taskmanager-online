@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="text-2xl font-bold leading-7 text-blue-900 sm:text-3xl sm:truncate">
+        {{employee.legal_name}} ({{employee.english_name}})
+    </h2>
+    <h4>Day Workload: <strong>{{workload}} </strong> hrs/Day </h4>
+    <p></p>
+    <div id="projectforms" class="py-5 mt-5" style="height: 0; overflow: hidden;"></div>
+
+    <div class="bg-gray-100 rounded-lg p-4 mt-4">
+        <h3 class="text-lg font-bold leading-5 text-gray-900 sm:text-xl sm:truncate">Information</h3>
+
+        <p><strong>Legal name:</strong> {{employee.legal_name}} - {{employee.title}}</p>
+        <p><strong>English name:</strong> {{employee.english_name}} </p>
+        <p><strong>gid:</strong> {{employee.gid}} </p>
+        <p><strong>email:</strong> {{employee.email}} </p>
+    </div>
+    <br>
+    <div class="md:flex md:items-center md:justify-between" >
+        <div class="flex-1 min-w-0" >
+            <h3 class="text-lg font-bold leading-5 text-gray-900 sm:text-xl sm:truncate">
+                Current Projects for {{employee.legal_name}}
+            </h3>
+        </div>
+
+    </div>
+    <div id="projectforms" class="py-5 mt-5" style="height: 0; overflow: hidden;"></div>
+    <div class="mt-5 py-5 border-t border-gray-100">
+        <div class="project-container flex flex-wrap" >
+            {% for project in ongoing %}
+                <div class="project-box bg-transparent border-2 border-gray-400 rounded-lg p-4 m-4 w-72">
+                    <h4 class="font-bold text-base mb-2">{{ project.project_name }}</h4>
+                    <p class="text-sm">Manager: {{ project.manager }}</p>
+                    <p class="text-sm">Currently: {{ project.current_stage }}</p>
+                    <p class="mt-2 text-sm">{{ project.description }}</p>
+                </div>
+            {% empty %}
+                <p>{{employee.english_name}} is not working on any project</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="flex-1 min-w-0">
+        <h3 class="text-lg font-bold leading-5 text-gray-900 sm:text-xl sm:truncate">
+            Historical Projects 
+        </h3>
+    </div>
+    
+    <div class="mt-5 py-5 border-t border-gray-100">
+        <div class="project-container flex flex-wrap">
+            {% for project in archive  %}
+                <div class="project-box bg-transparent border-2 border-gray-400 rounded-lg p-4 m-4 w-72">
+                    <h4 class="font-bold text-base mb-2">{{ project.project_name }}</h4>
+                    <p class="text-sm">Manager: {{ project.manager }}</p>
+                    <p class="text-sm">Currently: {{ project.current_stage }}</p>
+                    <p class="mt-2 text-sm">{{ project.description }}</p>
+                </div>
+            {% empty %}
+                <p>{{employee.english_name}} has not completed any projects yet. </p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

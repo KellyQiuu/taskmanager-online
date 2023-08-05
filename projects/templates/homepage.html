@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HomePage</title>
+	<style>
+	
+	body {
+	
+	font-family: Arial, sans-serif;
+	
+	margin: 20px;
+	
+	display: flex;
+	
+	flex-direction: column;
+	
+	align-items: center;
+	
+	}
+	
+	  
+	
+	h1 {
+	
+	text-align: center;
+	
+	margin-bottom: 20px;
+	
+	}
+	
+	  
+	
+	h4 {
+	
+	text-align: center;
+	
+	margin-bottom: 20px;
+	
+	}
+	
+	  
+	
+	ul {
+	
+	list-style-type: none;
+	
+	padding: 0;
+	
+	margin: 0;
+	
+	text-align: center;
+	
+	}
+	
+	  
+	
+	li {
+	
+	display: inline-block;
+	
+	margin: 10px;
+	
+	border: 2px solid #393f86;
+	
+	border-radius: 4px;
+	
+	padding: 10px;
+	
+	}
+	
+	  
+	
+	/* Style the buttons */
+	
+	form {
+	
+	display: inline-block;
+	
+	}
+	
+	  
+	
+	button {
+	
+	padding: 10px 20px;
+	
+	background-color: #1e2465;
+	
+	color: white;
+	
+	border: none;
+	
+	border-radius: 4px;
+	
+	cursor: pointer;
+	
+	transition: background-color 0.3s;
+	
+	}
+	
+	  
+	
+	button:hover {
+	
+	background-color: #4b9e2a;
+	
+	}
+	
+	  
+	
+	/* Style the search bar */
+	
+	#search-form {
+	
+	margin-bottom: 20px;
+	
+	display: flex;
+	
+	justify-content: center;
+	
+	align-items: center;
+	
+	}
+	
+	  
+	
+	#search-input {
+	
+	padding: 5px;
+	
+	width: 300px;
+	
+	border: 1px solid #ccc;
+	
+	border-radius: 4px;
+	
+	}
+	
+	  
+	
+	#search-button {
+	
+	padding: 5px 10px;
+	
+	background-color: #1e2465;
+	
+	color: white;
+	
+	border: none;
+	
+	border-radius: 4px;
+	
+	cursor: pointer;
+	
+	transition: background-color 0.3s;
+	
+	}
+	
+	  
+	
+	#search-button:hover {
+	
+	background-color: #45a049;
+	
+	}
+	
+	</style>
+</head>
+<body>
+    <h1>Welcome to Task Management Helper</h1>
+    
+    <form action="/admin/" method="GET">
+        {% csrf_token %}
+        <button type="submit">Log In as an Admin</button>
+        <p> </p>
+    </form>
+    
+    <div id="search-form">
+        <form action="/search/" method="GET">
+            {% csrf_token %}
+            <input type="text" name="query" id="search-input" placeholder="Search by employee name...">
+            <button type="submit" id="search-button">Search</button>
+        </form>
+    </div>
+    
+    <h4>Select a department to filter employees or leave it empty to show all employees</h4>
+    <form action="{% url 'homepage' %}" method="GET">
+        {% csrf_token %}
+        <select name="department" id="department">
+            <option value="">-- All Departments --</option>
+            <option value="RTR">RTR</option>
+            <option value="PTP">PTP</option>
+            <option value="CI">CI</option>
+            <option value="IT">IT</option>
+            <option value="IC">IC</option>
+            <option value="TE">TE</option>
+            <option value="support team">Support Team</option>
+            <option value="None">None</option>
+            <!-- Add more departments as needed -->
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul>
+        {% for employee in employees %}
+            {% if not department or employee.department == department %}
+                <li>
+                    <h4>{{ employee.legal_name }}</h4>
+                    <form action="/employee/{{ employee.id }}/" method="GET">
+                        {% csrf_token %}
+                        <button type="submit">Current Projects</button>
+                    </form>
+                    <form action="/{{ employee.id }}/" method="GET">
+                        {% csrf_token %}
+                        <button type="submit">Add New Tasks</button>
+                    </form>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if empty %}
+            <p>No user found. Go to the admin page to add them as a user.</p>
+        {% endif %}
+    </ul>
+</body>
+</html>

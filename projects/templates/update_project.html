@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h4>Update or Delete Projects for {{employee.legal_name}}</h4>
+    
+    <button hx-get="{% url 'project-form' %}" hx-swap="beforeend" hx-target="#projectforms">
+        Add Project
+    </button>
+
+    <div id="projectforms">
+    {%for project in projects %}
+    {% include 'partials/project_detail.html' %}
+    {% endfor %}
+    </div>
+
+{% endblock %}

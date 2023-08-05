@@ -1,0 +1,20 @@
+<!-- search_results.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search full names</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <p>Search query: "{{ query }}"</p>
+    {% if employees %}
+        <ul>
+            {% for employee in employees %}
+                <li>{{ employee.legal_name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>
